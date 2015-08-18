@@ -220,7 +220,7 @@ Local variables should not contain underscores.
 
 ## Methods
 
-In method signatures, there should be a space after the method type (-/+ symbol). There should be a space between the method segments (matching Apple's style).  Always include a keyword and be descriptive with the word before the argument which describes the argument.
+In method signatures, there should be a space after the method type (-/+ symbol) and after type of the parameter(befoe * symbol). There should be a space between the method segments (matching Apple's style). Always include a keyword and be descriptive with the word before the argument which describes the argument.
 
 The usage of the word "and" is reserved.  It should not be used for multiple parameters as illustrated in the `initWithWidth:height:` example below.
 
@@ -246,7 +246,7 @@ The usage of the word "and" is reserved.  It should not be used for multiple par
 
 Variables should be named as descriptively as possible. Single letter variable names should be avoided except in `for()` loops.
 
-Asterisks indicating pointers belong with the variable, e.g., `NSString *text` not `NSString* text` or `NSString * text`, except in the case of constants.
+Asterisks indicating pointers (* symbol) belong with the variable, e.g., `NSString *text` not `NSString* text` or `NSString * text`, except in the case of constants.
 
 [Private properties](#private-properties) should be used in place of instance variables whenever possible. Although using instance variables is a valid way of doing things, by agreeing to prefer properties our code will be more consistent. 
 
