@@ -28,6 +28,7 @@ The official Objective-C style guide
 * [Error handling](#error-handling)
 * [Singletons](#singletons)
 * [Line Breaks](#line-breaks)
+* [Import resources](#import-resources)
 * [Xcode Project](#xcode-project)
 
 
@@ -255,7 +256,7 @@ Direct access to instance variables that 'back' properties should be avoided exc
 **Preferred:**
 
 ```objc
-@interface RWTTutorial : NSObject
+@interface CSFTutorial : NSObject
 
 @property (strong, nonatomic) NSString *tutorialName;
 
@@ -308,7 +309,7 @@ Why? Even if you declared a property as `NSString` somebody might pass in an ins
 
 Dot syntax is purely a convenient wrapper around accessor method calls. When you use dot syntax, the property is still accessed or changed using getter and setter methods.  Read more [here](https://developer.apple.com/library/ios/documentation/cocoa/conceptual/ProgrammingWithObjectiveC/EncapsulatingData/EncapsulatingData.html)
 
-Dot-notation should **always** be used for accessing and mutating properties, as it makes code more concise. Bracket notation is preferred in all other instances.
+Dot-notation should **always** be used for accessing and mutating properties, as it makes code more short. Bracket notation is preferred in methods.
 
 **Preferred:**
 ```objc
@@ -348,22 +349,30 @@ NSNumber *buildingStreetNumber = [NSNumber numberWithInteger:10018];
 
 ## Constants
 
-Constants are preferred over in-line string literals or numbers, as they allow for easy reproduction of commonly used variables and can be quickly changed without the need for find and replace. Constants should be declared as `static` constants and not `#define`s unless explicitly being used as a macro.
+Constants are preferred over in-line string literals or numbers, as they allow for easy reproduction of commonly used variables and can be quickly changed without the need for find and replace. Constants should be declared as `static` constants and not `#define`s unless explicitly being used as a macro. Using define reasonable only in the case of a platform / target / enviroment dependent constants.
 
 **Preferred:**
 
 ```objc
-static NSString * const RWTAboutViewControllerCompanyName = @"RayWenderlich.com";
+static NSString * const CSFAboutViewControllerCompanyName = @"Somewebsite.com";
 
-static CGFloat const RWTImageThumbnailHeight = 50.0;
+static CGFloat const CSFImageThumbnailHeight = 50.0;
 ```
 
 **Not Preferred:**
 
 ```objc
-#define CompanyName @"RayWenderlich.com"
+#define CompanyName @"SomeWebsite.com"
 
 #define thumbnailHeight 2
+```
+
+To separate the parts written in C or in low-level classes use the constants starting with k.
+
+**Preferred:**
+
+```objc
+static float const kADTDefaultItemSize = 50.0f;
 ```
 
 ## Enumerated Types
@@ -374,20 +383,20 @@ When using `enum`s, it is recommended to use the new fixed underlying type speci
 
 ```objc
 typedef NS_ENUM(NSInteger, RWTLeftMenuTopItemType) {
-  RWTLeftMenuTopItemMain,
-  RWTLeftMenuTopItemShows,
-  RWTLeftMenuTopItemSchedule
+  CSFLeftMenuTopItemMain,
+  CSFLeftMenuTopItemShows,
+  CSFLeftMenuTopItemSchedule
 };
 ```
 
 You can also make explicit value assignments (showing older k-style constant definition):
 
 ```objc
-typedef NS_ENUM(NSInteger, RWTGlobalConstants) {
-  RWTPinSizeMin = 1,
-  RWTPinSizeMax = 5,
-  RWTPinCountMin = 100,
-  RWTPinCountMax = 500,
+typedef NS_ENUM(NSInteger, CSFGlobalConstants) {
+  CSFPinSizeMin = 1,
+  CSFPinSizeMax = 5,
+  CSFPinCountMin = 100,
+  CSFPinCountMax = 500,
 };
 ```
 
@@ -405,23 +414,19 @@ enum GlobalConstants {
 
 ## Case Statements
 
-Braces are not required for case statements, unless enforced by the complier.  
-When a case contains more than one line, braces should be added.
+Braces are required for case statements even when a case contains only one line. Parameter names of the condition must be meaningful, for example, some "enum". Case statement is a good option to select from many states, which makes code more short.
 
 ```objc
-switch (condition) {
-  case 1:
+switch (menuType) {
+  case CSFLeftMenuTopItemMain:{
+    // …
+    // …
+}
+    break;
+  case CSFLeftMenuTopItemShows:
     // ...
     break;
-  case 2: {
-    // ...
-    // Multi-line example using braces
-    break;
-  }
-  case 3:
-    // ...
-    break;
-  default: 
+  case CSFLeftMenuTopItemSchedule:
     // ...
     break;
 }
@@ -444,33 +449,14 @@ switch (condition) {
 
 ```
 
-When using an enumerated type for a switch, 'default' is not needed.   For example:
-
-```objc
-RWTLeftMenuTopItemType menuType = RWTLeftMenuTopItemMain;
-
-switch (menuType) {
-  case RWTLeftMenuTopItemMain:
-    // ...
-    break;
-  case RWTLeftMenuTopItemShows:
-    // ...
-    break;
-  case RWTLeftMenuTopItemSchedule:
-    // ...
-    break;
-}
-```
-
-
 ## Private Properties
 
-Private properties should be declared in class extensions (anonymous categories) in the implementation file of a class. Named categories (such as `RWTPrivate` or `private`) should never be used unless extending another class.   The Anonymous category can be shared/exposed for testing using the <headerfile>+Private.h file naming convention.
+Private properties should be declared in class extensions (anonymous categories) in the implementation file of a class. Named categories (such as `CSFPrivate` or `private`) should never be used unless extending another class.   The Anonymous category can be shared/exposed for testing using the <headerfile>+Private.h file naming convention.
 
 **For Example:**
 
 ```objc
-@interface RWTDetailViewController ()
+@interface CSFDetailViewController ()
 
 @property (strong, nonatomic) GADBannerView *googleAdView;
 @property (strong, nonatomic) ADBannerView *iAdView;
@@ -501,34 +487,21 @@ if (isAwesome == YES) {} // Never do this.
 if (isAwesome == true) {} // Never do this.
 ```
 
-If the name of a `BOOL` property is expressed as an adjective, the property can omit the “is” prefix but specifies the conventional name for the get accessor, for example:
-
-```objc
-@property (assign, getter=isEditable) BOOL editable;
-```
-Text and example taken from the [Cocoa Naming Guidelines](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CodingGuidelines/Articles/NamingIvarsAndTypes.html#//apple_ref/doc/uid/20001284-BAJGIIJE).
-
 ## Conditionals
 
-Conditional bodies should always use braces even when a conditional body could be written without braces (e.g., it is one line only) to prevent errors. These errors include adding a second line and expecting it to be part of the if-statement. Another, [even more dangerous defect](http://programmers.stackexchange.com/a/16530) may happen where the line "inside" the if-statement is commented out, and the next line unwittingly becomes part of the if-statement. In addition, this style is more consistent with all other conditionals, and therefore more easily scannable.
+Conditional bodies should always use braces even when a conditional body could be written without braces (e.g., it is one line only) to prevent errors. These errors include adding a second line and expecting it to be part of the if-statement. Another, even more dangerous defect may happen where the line "inside" the if-statement is commented out, and the next line unwittingly becomes part of the if-statement. In addition, this style is more consistent with all other conditionals, and therefore more easily scannable.
 
 **Preferred:**
 ```objc
-if (!error) {
-  return success;
+if (!error) 
+{
 }
 ```
 
 **Not Preferred:**
 ```objc
-if (!error)
-  return success;
-```
-
-or
-
-```objc
-if (!error) return success;
+if (someObject == nil){
+}
 ```
 
 ### Ternary Operator
@@ -536,6 +509,8 @@ if (!error) return success;
 The Ternary operator, `?:` , should only be used when it increases clarity or code neatness. A single condition is usually all that should be evaluated. Evaluating multiple conditions is usually more understandable as an `if` statement, or refactored into instance variables. In general, the best use of the ternary operator is during assignment of a variable and deciding which value to use.
 
 Non-boolean variables should be compared against something, and parentheses are added for improved readability.  If the variable being compared is a boolean type, then no parentheses are needed.
+
+Divide code into several lines, if it does not fit in the width of the screen.
 
 **Preferred:**
 ```objc
@@ -556,7 +531,8 @@ result = a > b ? x = c > d ? c : d : y;
 Init methods should follow the convention provided by Apple's generated code template.  A return type of 'instancetype' should also be used instead of 'id'.
 
 ```objc
-- (instancetype)init {
+- (instancetype)init 
+{
   self = [super init];
   if (self) {
     // ...
@@ -576,8 +552,6 @@ Where class constructor methods are used, these should always return type of 'in
 + (instancetype)airplaneWithType:(RWTAirplaneType)type;
 @end
 ```
-
-More information on instancetype can be found on [NSHipster.com](http://nshipster.com/instancetype/).
 
 ## CGRect Functions
 
@@ -611,14 +585,16 @@ CGRect frame = (CGRect){ .origin = CGPointZero, .size = frame.size };
 
 ## Golden Path
 
-When coding with conditionals, the left hand margin of the code should be the "golden" or "happy" path.  That is, don't nest `if` statements.  Multiple return statements are OK.
+When coding with conditionals, the left hand margin of the code should be the "golden" or "happy" path.  That is, don't put a lot of `if` statements.  Multiple return statements are OK.
 
 **Preferred:**
 
 ```objc
-- (void)someMethod {
-  if (![someOther boolValue]) {
-	return;
+- (void)someMethod 
+{
+  if (![someOther boolValue]) 
+  {
+    return;
   }
 
   //Do something important
@@ -674,8 +650,8 @@ Singleton objects should use a thread-safe pattern for creating their shared ins
   return sharedInstance;
 }
 ```
-This will prevent [possible and sometimes prolific crashes](http://cocoasamurai.blogspot.com/2011/04/singletons-your-doing-them-wrong.html).
 
+Using macros call restricted methods of object creation is allowed. But it is necessary to redefine at least allocWithZone: and copyWithZone:.
 
 ## Line Breaks
 
@@ -691,6 +667,19 @@ self.productsRequest = [[SKProductsRequest alloc]
   initWithProductIdentifiers:productIdentifiers];
 ```
 
+## Import resources
+
+```objc
+// Frameworks 
+@import QuartzCore;
+
+// Models
+#import "NYTUser.h"
+
+// Views
+#import "NYTButton.h"
+#import "NYTUserView.h"
+```
 
 ## Xcode project
 
@@ -698,16 +687,3 @@ The physical files should be kept in sync with the Xcode project files in order 
 
 When possible, always turn on "Treat Warnings as Errors" in the target's Build Settings and enable as many [additional warnings](http://boredzo.org/blog/archives/2009-11-07/warnings) as possible. If you need to ignore a specific warning, use [Clang's pragma feature](http://clang.llvm.org/docs/UsersManual.html#controlling-diagnostics-via-pragmas).
 
-# Other Objective-C Style Guides
-
-If ours doesn't fit your tastes, have a look at some other style guides:
-
-* [Robots & Pencils](https://github.com/RobotsAndPencils/objective-c-style-guide)
-* [New York Times](https://github.com/NYTimes/objective-c-style-guide)
-* [Google](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
-* [GitHub](https://github.com/github/objective-c-conventions)
-* [Adium](https://trac.adium.im/wiki/CodingStyle)
-* [Sam Soffes](https://gist.github.com/soffes/812796)
-* [CocoaDevCentral](http://cocoadevcentral.com/articles/000082.php)
-* [Luke Redpath](http://lukeredpath.co.uk/blog/my-objective-c-style-guide.html)
-* [Marcus Zarra](http://www.cimgf.com/zds-code-style-guide/)
