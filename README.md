@@ -90,14 +90,6 @@ Use `#pragma mark -` to categorize methods in functional groupings and protocol/
 
 - (NSString*) description {}
 
-OR
-#pragma mark - Lifecycle
-- (void) dealloc {}
-- (void) viewDidLoad {}
-#pragma mark - Protocol name
-...
-#pragma mark - Actions
-private methods
 ```
 
 ## Spacing
@@ -382,7 +374,8 @@ When using `enum`s, it is recommended to use the new fixed underlying type speci
 **For Example:**
 
 ```objc
-typedef NS_ENUM(NSInteger, CSFLeftMenuTopItemType) {
+typedef NS_ENUM(NSInteger, CSFLeftMenuTopItemType) 
+{
   CSFLeftMenuTopItemMain,
   CSFLeftMenuTopItemShows,
   CSFLeftMenuTopItemSchedule
@@ -392,7 +385,8 @@ typedef NS_ENUM(NSInteger, CSFLeftMenuTopItemType) {
 You can also make explicit value assignments (showing older k-style constant definition):
 
 ```objc
-typedef NS_ENUM(NSInteger, CSFGlobalConstants) {
+typedef NS_ENUM(NSInteger, CSFGlobalConstants) 
+{
   CSFPinSizeMin = 1,
   CSFPinSizeMax = 5,
   CSFPinCountMin = 100,
@@ -417,11 +411,13 @@ enum GlobalConstants {
 Braces are required for case statements even when a case contains only one line. Parameter names of the condition must be meaningful, for example, some "enum". Case statement is a good option to select from many states, which makes code more short.
 
 ```objc
-switch (menuType) {
-  case CSFLeftMenuTopItemMain:{
+switch (menuType) 
+{
+  case CSFLeftMenuTopItemMain:
+  {
     // …
     // …
-}
+  }
     break;
   case CSFLeftMenuTopItemShows:
     // ...
@@ -436,7 +432,8 @@ switch (menuType) {
 There are times when the same code can be used for multiple cases, and a fall-through should be used.  A fall-through is the removal of the 'break' statement for a case thus allowing the flow of execution to pass to the next case value.  A fall-through should be commented for coding clarity.
 
 ```objc
-switch (condition) {
+switch (condition) 
+{
   case 1:
     // ** fall-through! **
   case 2:
@@ -641,7 +638,8 @@ Some of Apple’s APIs write garbage values to the error parameter (if non-NULL)
 
 Singleton objects should use a thread-safe pattern for creating their shared instance.
 ```objc
-+ (instancetype) sharedInstance {
++ (instancetype) sharedInstance 
+{
   static id sharedInstance = nil;
 
   static dispatch_once_t onceToken;
@@ -666,7 +664,7 @@ self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers: pr
 A long line of code like this should be carried on to the second line adhering to this style guide's Spacing section (two spaces).
 ```objc
 self.productsRequest = [[SKProductsRequest alloc] 
-  initWithProductIdentifiers:productIdentifiers];
+  initWithProductIdentifiers: productIdentifiers];
 ```
 
 ## Import resources
