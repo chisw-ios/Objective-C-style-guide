@@ -534,7 +534,8 @@ Init methods should follow the convention provided by Apple's generated code tem
 - (instancetype)init 
 {
   self = [super init];
-  if (self) {
+  if (self) 
+  {
     // ...
   }
   return self;
@@ -618,7 +619,8 @@ When methods return an error parameter by reference, switch on the returned valu
 **Preferred:**
 ```objc
 NSError *error;
-if (![self trySomethingWithError:&error]) {
+if (![self trySomethingWithError:&error]) 
+{
   // Handle Error
 }
 ```
