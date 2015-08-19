@@ -266,7 +266,7 @@ Direct access to instance variables that 'back' properties should be avoided exc
 **Not Preferred:**
 
 ```objc
-@interface RWTTutorial : NSObject {
+@interface CSFTutorial : NSObject {
   NSString *tutorialName;
 }
 ```
@@ -382,7 +382,7 @@ When using `enum`s, it is recommended to use the new fixed underlying type speci
 **For Example:**
 
 ```objc
-typedef NS_ENUM(NSInteger, RWTLeftMenuTopItemType) {
+typedef NS_ENUM(NSInteger, CSFLeftMenuTopItemType) {
   CSFLeftMenuTopItemMain,
   CSFLeftMenuTopItemShows,
   CSFLeftMenuTopItemSchedule
@@ -550,7 +550,7 @@ Where class constructor methods are used, these should always return type of 'in
 
 ```objc
 @interface Airplane
-+ (instancetype)airplaneWithType:(RWTAirplaneType)type;
++ (instancetype)airplaneWithType:(CSFAirplaneType)type;
 @end
 ```
 
