@@ -54,28 +54,28 @@ Use `#pragma mark -` to categorize methods in functional groupings and protocol/
 ```objc
 #pragma mark - Lifecycle
 
-- (instancetype)init {}
-- (void)dealloc {}
-- (void)viewDidLoad {}
-- (void)viewWillAppear:(BOOL)animated {}
-- (void)didReceiveMemoryWarning {}
+- (instancetype) init {}
+- (void) dealloc {}
+- (void) viewDidLoad {}
+- (void) viewWillAppear: (BOOL) animated {}
+- (void) didReceiveMemoryWarning {}
 
 #pragma mark - Custom Accessors
 
-- (void)setCustomProperty:(id)value {}
-- (id)customProperty {}
+- (void) setCustomProperty: (id) value {}
+- (id) customProperty {}
 
 #pragma mark - IBActions
 
-- (IBAction)submitData:(id)sender {}
+- (IBAction) submitData: (id) sender {}
 
 #pragma mark - Public
 
-- (void)publicMethod {}
+- (void) publicMethod {}
 
 #pragma mark - Private
 
-- (void)privateMethod {}
+- (void) privateMethod {}
 
 #pragma mark - Protocol conformance
 #pragma mark - UITextFieldDelegate
@@ -84,16 +84,16 @@ Use `#pragma mark -` to categorize methods in functional groupings and protocol/
 
 #pragma mark - NSCopying
 
-- (id)copyWithZone:(NSZone *)zone {}
+- (id) copyWithZone: (NSZone*) zone {}
 
 #pragma mark - NSObject
 
-- (NSString *)description {}
+- (NSString*) description {}
 
 OR
 #pragma mark - Lifecycle
-- (void)dealloc {}
-- (void)viewDidLoad {}
+- (void) dealloc {}
+- (void) viewDidLoad {}
 #pragma mark - Protocol name
 ...
 #pragma mark - Actions
@@ -134,9 +134,9 @@ else {
 
 ```objc
 // blocks are easily readable
-[UIView animateWithDuration:1.0 animations:^{
+[UIView animateWithDuration: 1.0 animations: ^{
   // something
-} completion:^(BOOL finished) {
+} completion: ^(BOOL finished) {
   // something
 }];
 ```
@@ -227,10 +227,10 @@ The usage of the word "and" is reserved.  It should not be used for multiple par
 
 **Preferred:**
 ```objc
-- (void)setExampleText:(NSString *)text image:(UIImage *)image;
-- (void)sendAction:(SEL)aSelector to:(id)anObject forAllCells:(BOOL)flag;
-- (id)viewWithTag:(NSInteger)tag;
-- (instancetype)initWithWidth:(CGFloat)width height:(CGFloat)height;
+- (void) setExampleText: (NSString*) text image: (UIImage*) image;
+- (void) sendAction: (SEL) aSelector to: (id) anObject forAllCells: (BOOL) flag;
+- (id) viewWithTag: (NSInteger) tag;
+- (instancetype) initWithWidth: (CGFloat) width height: (CGFloat) height;
 ```
 
 **Not Preferred:**
@@ -531,7 +531,7 @@ result = a > b ? x = c > d ? c : d : y;
 Init methods should follow the convention provided by Apple's generated code template.  A return type of 'instancetype' should also be used instead of 'id'.
 
 ```objc
-- (instancetype)init 
+- (instancetype) init 
 {
   self = [super init];
   if (self) 
@@ -550,7 +550,7 @@ Where class constructor methods are used, these should always return type of 'in
 
 ```objc
 @interface Airplane
-+ (instancetype)airplaneWithType:(CSFAirplaneType)type;
++ (instancetype) airplaneWithType: (CSFAirplaneType) type;
 @end
 ```
 
@@ -641,7 +641,7 @@ Some of Apple’s APIs write garbage values to the error parameter (if non-NULL)
 
 Singleton objects should use a thread-safe pattern for creating their shared instance.
 ```objc
-+ (instancetype)sharedInstance {
++ (instancetype) sharedInstance {
   static id sharedInstance = nil;
 
   static dispatch_once_t onceToken;
@@ -661,7 +661,7 @@ Line breaks are an important topic since this style guide is focused for print a
 
 For example:
 ```objc
-self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
+self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers: productIdentifiers];
 ```
 A long line of code like this should be carried on to the second line adhering to this style guide's Spacing section (two spaces).
 ```objc
