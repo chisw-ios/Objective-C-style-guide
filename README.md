@@ -4,6 +4,10 @@ The official Objective-C style guide
 ## Table of Contents
 
 * [Language](#language)
+* [Project sctructure](##project-sctructure)
+* [Basic communication patterns](#basic-communication-patterns)
+* [Controllers](#controllers)
+* [Resources](#resources)
 * [Code Organization](#code-organization)
 * [Spacing](#spacing)
 * [Comments](#comments)
@@ -29,7 +33,6 @@ The official Objective-C style guide
 * [Singletons](#singletons)
 * [Line Breaks](#line-breaks)
 * [Import resources](#import-resources)
-* [Xcode Project](#xcode-project)
 
 
 ## Language
@@ -46,6 +49,48 @@ UIColor *myColor = [UIColor whiteColor];
 UIColor *myColour = [UIColor whiteColor];
 ```
 
+## Project sctructure
+
+Create a folder structure for all enclosures:
+├─ Models
+├─ Views
+├─ Controllers
+├─ Stores
+├─ Helpers
+
+The physical files should be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created should be reflected by folders in the filesystem. Code should be grouped not only by type, but also by feature for greater clarity.
+When possible, always turn on "Treat Warnings as Errors" in the target's Build Settings and enable as many [additional warnings](http://boredzo.org/blog/archives/2009-11-07/warnings) as possible. If you need to ignore a specific warning, use [Clang's pragma feature](http://clang.llvm.org/docs/UsersManual.html#controlling-diagnostics-via-pragmas).
+
+Recommended to use of CocoaPods when adding libraries to the project.
+
+## Basic communication patterns
+
+Delegation: (one to one) The basic principle - one of the most common, one of the best examples is the use of tables and modal controllers. One element transfers responsibility for part of its functionality by reference to the other (as protocols).
+Callback blocks: (one to one) Provides a lower connectivity of code as more optimal for a large number of senders.
+Notification Center: (one to many) do not require connections between objects, has the smallest connectivity code. The ability to sign several objects at a single event. Distributed throughout the application. There are problems with the demanding at the time of execution of pieces of code.
+Key-Value Observing (KVO): (one to many) do not require knowledge of the structure of the reciever, does not block the common channel. On the other hand complicated debugging and support.
+
+
+## Controllers
+Pass all the required objects as parameters(dependency injection), instead of adding states to singletons.
+
+```objc
++ [[FooDetailsViewController alloc] initWithFoo:(Foo *)foo];
+```
+
+## Resources
+
+Don't use underscores and dashes / hyphens in names, only CamelCase. Using a hyphen is only allowed to indicate the size. Using the assets is up to the developer.
+
+```objc
+IconCheckmarkHighlighted.png // Universal, non-Retina
+IconCheckmarkHighlighted@2x.png // Universal, Retina
+IconCheckmarkHighlighted~iphone.png // iPhone, non-Retina
+IconCheckmarkHighlighted@2x~iphone.png // iPhone, Retina
+IconCheckmarkHighlighted-568h@2x~iphone.png // iPhone, Retina, 4-inch
+IconCheckmarkHighlighted~ipad.png // iPad, non-Retina
+IconCheckmarkHighlighted@2x~ipad.png // iPad, Retina
+```
 
 ## Code Organization
 
@@ -669,6 +714,10 @@ self.productsRequest = [[SKProductsRequest alloc]
 
 ## Import resources
 
+CocoaPods
+
+Простой путь для подключения внешних зависимостей(библиотеки, компоненты и т. д.). Рекомендуется использование CocoaPods при подключении библиотек, если для них не нужно делать fork.
+
 ```objc
 // Frameworks 
 @import QuartzCore;
@@ -680,10 +729,3 @@ self.productsRequest = [[SKProductsRequest alloc]
 #import "NYTButton.h"
 #import "NYTUserView.h"
 ```
-
-## Xcode project
-
-The physical files should be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created should be reflected by folders in the filesystem. Code should be grouped not only by type, but also by feature for greater clarity.
-
-When possible, always turn on "Treat Warnings as Errors" in the target's Build Settings and enable as many [additional warnings](http://boredzo.org/blog/archives/2009-11-07/warnings) as possible. If you need to ignore a specific warning, use [Clang's pragma feature](http://clang.llvm.org/docs/UsersManual.html#controlling-diagnostics-via-pragmas).
-
