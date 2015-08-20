@@ -70,8 +70,10 @@ Recommended to use of CocoaPods when adding libraries to the project.
 ## Basic communication patterns
 
 Delegation: (one to one) The basic principle - one of the most common, one of the best examples is the use of tables and modal controllers. One element transfers responsibility for part of its functionality by reference to the other (as protocols).
+
 Callback blocks: (one to one) Provides a lower connectivity of code as more optimal for a large number of senders.
 Notification Center: (one to many) do not require connections between objects, has the smallest connectivity code. The ability to sign several objects at a single event. Distributed throughout the application. There are problems with the demanding at the time of execution of pieces of code.
+
 Key-Value Observing (KVO): (one to many) do not require knowledge of the structure of the reciever, does not block the common channel. On the other hand complicated debugging and support.
 
 
