@@ -4,7 +4,8 @@ The official Objective-C style guide
 ## Table of Contents
 
 * [Language](#language)
-* [Project sctructure](##project-sctructure)
+* [User interface](#user-interface)
+* [Project structure](##project-structure)
 * [Basic communication patterns](#basic-communication-patterns)
 * [Controllers](#controllers)
 * [Resources](#resources)
@@ -49,7 +50,14 @@ UIColor *myColor = [UIColor whiteColor];
 UIColor *myColour = [UIColor whiteColor];
 ```
 
-## Project sctructure
+## User interface
+
+Storyboards are more likely to conflict with the versions (git ...) due to their complex XML structure. This makes merger much more difficult than with the code. 
+The code is easier to structure and use common approaches several times. All information is stored in one place. In Interface Builder, you need to find and select the "inspectors" to find what you are looking for.
+Recommendations: Do not mix everything. When the project started with storyboards, you should continue to use storyboards. For the separation of multiple user flows, it is recommended to split into smaller storyboards if possible.
+
+
+## Project structure
 
 Create a folder structure for all enclosures:
 
@@ -145,8 +153,7 @@ Use `#pragma mark -` to categorize methods in functional groupings and protocol/
 
 ## Spacing
 
-* Indent using 2 spaces (this conserves space in print and makes line wrapping less likely). Never indent with tabs. Be sure to set this preference in Xcode.
-* Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the next line.
+Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the next line.
 
 **Preferred:**
 ```objc
@@ -722,7 +729,7 @@ self.productsRequest = [[SKProductsRequest alloc]
 
 CocoaPods
 
-Простой путь для подключения внешних зависимостей(библиотеки, компоненты и т. д.). Рекомендуется использование CocoaPods при подключении библиотек, если для них не нужно делать fork.
+A simple way to connect external dependencies (libraries, components, and so on.). It is recommended to use when connecting CocoaPods libraries, if they do not need to fork.
 
 ```objc
 // Frameworks 
